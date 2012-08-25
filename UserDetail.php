@@ -19,19 +19,26 @@ require_once 'QuesProcess.php';
 
 //Create object of class	
 $Ques_Process_Obj = new Ques_Processor();
+
+//Define Array
+$sampleArray = array(
+    'gid', 'qid'
+);
 			
 //Calling functions
 $surveyId      = $Ques_Process_Obj -> createColumn('surveyls_survey_id', $langTable, 'surveyls_title', $surveyTitle);
 $mainTable     = $prefixTable.'survey_'.$surveyId;
+$emailId       = $Ques_Process_Obj -> createColumn($sampleArray,$quesTable,'question','Email');
+$emailColm     = $surveyId."X".$emailId[0]."X".$emailId[1];
 $questionsQid  = $Ques_Process_Obj -> createColumn('qid', $quesTable, 'parent_qid', 0);	
 $quesInfo      = $Ques_Process_Obj -> getQuestionInfo($questionsQid, $quesTable);
 $columnNames   = $Ques_Process_Obj -> questionColumnCreator($surveyId, $quesInfo, $quesTable);
-$displayResult = $Ques_Process_Obj -> displayAnswer($columnNames, $mainTable);
+$displayResult = $Ques_Process_Obj -> displayAnswer($columnNames, $mainTable, $emailColm);
 
 //Display Answers
-echo "<pre>";
+/*echo "<pre>";
 print_r($columnNames);
 print_r($displayResult);
-echo "</pre>";		
+echo "</pre>"; */	
 
 ?>
